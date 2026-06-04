@@ -76,7 +76,7 @@ resource "aws_security_group_rule" "rabbitmq_bastion" {
 #backend_alb
 resource "aws_security_group_rule" "backend_alb_bastion" {
   type              = "ingress"
-  from_port         = 80
+  from_port         = 80                 #elb listens only on port 80, wont listens on 22 - AWS designed like this
   to_port           = 80
   protocol          = "tcp"
   source_security_group_id = local.bastion_sg_id
@@ -84,6 +84,27 @@ resource "aws_security_group_rule" "backend_alb_bastion" {
   security_group_id = local.backend_alb_sg_id
 }
 
+#catalogue from bastion
+resource "aws_security_group_rule" "catalogue_bastion" {
+  type              = "ingress"
+  from_port         = 22                
+  to_port           = 22
+  protocol          = "tcp"
+  source_security_group_id = local.bastion_sg_id
+  # To which SG you are creating this rrule
+  security_group_id = local.catalogue_sg_id
+}
+
+#catalogue from backend_alb
+resource "aws_security_group_rule" "catalogue_backend_alb" {
+  type              = "ingress"
+  from_port         = 8080              
+  to_port           = 8080
+  protocol          = "tcp"
+  source_security_group_id = local.backend_alb_sg_id
+  # To which SG you are creating this rrule
+  security_group_id = local.catalogue_sg_id
+}
 
 
 
