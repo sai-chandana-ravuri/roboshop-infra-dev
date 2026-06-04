@@ -40,6 +40,17 @@ resource "aws_security_group_rule" "mongodb_user" {
 }
 
 
+#redis
+resource "aws_security_group_rule" "redis_bastion" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  source_security_group_id = local.bastion_sg_id
+  # To which SG you are creating this rrule
+  security_group_id = local.redis_sg_id
+}
+
 
 
 
