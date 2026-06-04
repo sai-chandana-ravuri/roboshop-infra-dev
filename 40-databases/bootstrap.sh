@@ -1,0 +1,1 @@
+# We will insatll ansible here and configure mongodb. Copy this script to mongodb
