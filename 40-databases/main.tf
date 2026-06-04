@@ -8,7 +8,7 @@ resource "aws_instance" "mongodb" {
         {
             Name = "${var.project_name}-${var.environment}-mongodb"
         },
-        local.common_tags,
+        local.common_tags
     )
 }
 
@@ -49,7 +49,7 @@ resource "aws_instance" "redis" {
         {
             Name = "${var.project_name}-${var.environment}-redis"
         },
-        local.common_tags,
+        local.common_tags
     )
 }
 
@@ -90,7 +90,7 @@ resource "aws_instance" "mysql" {
         {
             Name = "${var.project_name}-${var.environment}-mysql"
         },
-        local.common_tags,
+        local.common_tags
     )
 }
 
@@ -115,7 +115,7 @@ resource "terraform_data" "bootstrap_mysql" {
   provisioner "remote-exec" {
     inline = [
         "chmod +x /tmp/bootstrap.sh",
-        "sudo sh /tmp/bootstrap.sh mysql"
+        "sudo sh /tmp/bootstrap.sh mysql ${var.environment}"
     ]
   }
 }
@@ -130,7 +130,7 @@ resource "aws_instance" "rabbitmq" {
         {
             Name = "${var.project_name}-${var.environment}-rabbitmq"
         },
-        local.common_tags,
+        local.common_tags
     )
 }
 
