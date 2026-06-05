@@ -191,7 +191,7 @@ resource "aws_lb_listener_rule" "catalogue" {
 }
 
 #Delete the instance - There is no resource in terraform to delete instance, so using aws cli command with help of provsioner local-exec, we are issuing command
-resource "terraform_data" "catalogue" {
+resource "terraform_data" "delete-catalogue" {
   triggers_replace = [
     aws_instance.catalogue.id
   ]
