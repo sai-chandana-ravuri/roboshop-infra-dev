@@ -22,7 +22,7 @@ resource "terraform_data" "catalogue" {
     type = "ssh"
     user = "ec2-user"
     password = "DevOps321"
-    host = aws_instance.catlogue.private_ip
+    host = aws_instance.catalogue.private_ip
   }
 
   provisioner "file" {
@@ -35,6 +35,12 @@ resource "terraform_data" "catalogue" {
         "chmod +x /tmp/bootstrap.sh",
         "sudo sh /tmp/bootstrap.sh catalogue ${var.environment}"
     ]
+  }
+}
+
+action "aws_ec2_stop_instance" "catalogue" {
+  config {
+    instance_id = aws_instance.catalogue.id
   }
 }
 
