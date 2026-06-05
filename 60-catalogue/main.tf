@@ -132,8 +132,8 @@ resource "aws_autoscaling_group" "catalogue" {
   target_group_arns = [aws_lb_target_group.catalogue.arn]
 
   tag {
-    key                 = "foo"
-    value               = "bar"
+    key                 = "Name"
+    value               = "${var.project_name}-${var.environment}-catalogue"
     propagate_at_launch = true
   }
 
