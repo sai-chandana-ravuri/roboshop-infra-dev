@@ -199,6 +199,6 @@ depends_on = [aws_autoscaling_policy.catalogue]
   
   #It executes in bastion
   provisioner "local-exec" {
-    command = "aws ec2 terminate-instances ${aws_instance.catalogue.id}"
+    command = "aws ec2 terminate-instances --instance-ids ${aws_instance.catalogue.id}"
   }
 }
