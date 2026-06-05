@@ -106,5 +106,16 @@ resource "aws_security_group_rule" "catalogue_backend_alb" {
   security_group_id = local.catalogue_sg_id
 }
 
+#frontend_alb from internet
+resource "aws_security_group_rule" "frontend_alb_internet" {
+  type              = "ingress"
+  from_port         = 443              
+  to_port           = 443
+  protocol          = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]
+  # To which SG you are creating this rrule
+  security_group_id = local.frontend_alb_sg_id
+}
+
 
 

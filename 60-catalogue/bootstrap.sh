@@ -4,6 +4,7 @@
 
 component=$1
 environment=$2
+app_version=$3
 dnf install ansible -y
 
 cd /home/ec2-user
@@ -13,4 +14,4 @@ cd ansible-roboshop-roles-tf
 
 git pull
 
-ansible-playbook -e component=$component -e env=$environment roboshop.yaml
+ansible-playbook -e component=$component -e env=$environment -e app_version=$app_version roboshop.yaml

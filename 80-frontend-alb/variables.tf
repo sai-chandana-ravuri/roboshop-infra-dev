@@ -6,10 +6,10 @@ variable "environment" {
     default = "dev"
 }
 
-variable "domain_name" {
-    default = "daws88c.online"
+variable "zone_id" {
+    default = "Z08145131ZQYG4A7JX2E8"
 }
 
-variable "app_version" {
-    default = "v3"
+variable "domain_name" {
+    default = "daws88c.online"
 }

@@ -33,7 +33,7 @@ resource "terraform_data" "catalogue" {
   provisioner "remote-exec" {
     inline = [
         "chmod +x /tmp/bootstrap.sh",
-        "sudo sh /tmp/bootstrap.sh catalogue ${var.environment}"
+        "sudo sh /tmp/bootstrap.sh catalogue ${var.environment} ${var.app_version}"
     ]
   }
 }
@@ -45,9 +45,15 @@ resource "aws_ec2_instance_state" "catalogue" {
 }
 
 resource "aws_ami_from_instance" "catalogue" {
-  name               = "${var.project_name}-${var.environment}-catalogue"
+  name               = "${var.project_name}-${var.environment}-catalogue-${var.app_version}-${aws_instance.catalogue.id}"
   source_instance_id = aws_instance.catalogue.id
   depends_on = [aws_ec2_instance_state.catalogue]
+  tags = merge(
+        {
+            Name = "${var.project_name}-${var.environment}-catalogue"
+        },
+        local.common_tags
+    )
 }
 
 resource "aws_lb_target_group" "catalogue" {
@@ -154,7 +160,7 @@ resource "aws_autoscaling_group" "catalogue" {
     }
   }
 
-  # with in 15min autoscaling should be successful
+  # with in 15min autoscaling should be successful or else deleted
   timeouts {
     delete = "15m"
   }
@@ -164,6 +170,7 @@ resource "aws_autoscaling_policy" "catalogue" {
   autoscaling_group_name = aws_autoscaling_group.catalogue.name
   name                   = "${var.project_name}-${var.environment}-catalogue"
   policy_type = "TargetTrackingScaling"
+  estimated_instance_warmup = 120
   target_tracking_configuration {
     predefined_metric_specification {
       predefined_metric_type = "ASGAverageCPUUtilization"
