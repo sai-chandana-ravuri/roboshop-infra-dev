@@ -7,4 +7,5 @@ locals {
         Terraform = "true"
     }
     ami_id = data.aws_ami.joindevops.id
+    vpc_id = data.aws_ssm_parameter.vpc_id.value
 }
