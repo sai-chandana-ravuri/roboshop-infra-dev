@@ -314,6 +314,14 @@ resource "aws_security_group_rule" "frontend_alb_internet" {
   security_group_id = local.frontend_alb_sg_id
 }
 
-
+resource "aws_security_group_rule" "frontend_bastion" {
+  type              = "ingress"
+  from_port         = 22              
+  to_port           = 22
+  protocol          = "tcp"
+  source_security_group_id = local.bastion_sg_id
+  # To which SG you are creating this rrule
+  security_group_id = local.frontend_sg_id
+}
 
 
