@@ -324,4 +324,33 @@ resource "aws_security_group_rule" "frontend_bastion" {
   security_group_id = local.frontend_sg_id
 }
 
+#openvpn
+resource "aws_security_group_rule" "openvpn_internet_443" {
+  type              = "ingress"
+  from_port         = 443              
+  to_port           = 443
+  protocol          = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]
+  # To which SG you are creating this rrule
+  security_group_id = local.openvpn_sg_id
+}
 
+resource "aws_security_group_rule" "openvpn_internet_943" {
+  type              = "ingress"
+  from_port         = 943             
+  to_port           = 943
+  protocol          = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]
+  # To which SG you are creating this rrule
+  security_group_id = local.openvpn_sg_id
+}
+
+resource "aws_security_group_rule" "backend_alb_openvpn" {
+  type              = "ingress"
+  from_port         = 943             
+  to_port           = 943
+  protocol          = "tcp"
+  source_security_group_id = local.openvpn_sg_id
+  # To which SG you are creating this rrule
+  security_group_id = local.backend_alb_sg_id
+}
